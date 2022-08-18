@@ -24,7 +24,7 @@ namespace Unit_9._6
             {
                 Console.WriteLine("\n \nPlease press key 1 or 2 \n Key 1 - sort A-Z \n Key 2 - sort Z-A ");
                 int num = Convert.ToInt32(Console.ReadLine());
-                if (num != 1 && num != 2) throw new MyException("Wrong key has been pressed. Please try again.");
+                if (num != 1 && num != 2) throw new MyException("Wrong number has been pressed. Please try again.");
                 NumEntered(num, l);
             }
             protected virtual void NumEntered(int num, List<string> l )

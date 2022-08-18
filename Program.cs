@@ -18,26 +18,24 @@ namespace Unit_9._6
         }
        public class NumReader
         {
-            public delegate void NumEnteredDelegate(int num);
+            public delegate void NumEnteredDelegate(int num, List<string> l);
             public event NumEnteredDelegate NumEnteredEvent;
-            public void KeyRead()
+            public void KeyRead(List<string> l)
             {
                 Console.WriteLine("\n \nPlease press key 1 or 2 \n Key 1 - sort A-Z \n Key 2 - sort Z-A ");
                 int num = Convert.ToInt32(Console.ReadLine());
                 if (num != 1 && num != 2) throw new MyException("Wrong key has been pressed. Please try again.");
-                NumEntered(num);
+                NumEntered(num, l);
             }
-            protected virtual void NumEntered(int num)
+            protected virtual void NumEntered(int num, List<string> l )
             {
-                NumEnteredEvent?.Invoke(num);
+                NumEnteredEvent?.Invoke(num, l);
             }
         }
         static void Main(string[] args)
         {
-            MyException ex1 = new MyException("Wrong key has been pressed. Please try again.");
-            
-
-            Exception ex2 =new ArgumentException();
+            MyException ex1 = new MyException("Some error happened.");
+            Exception ex2 = new ArgumentException();
             Exception ex3 = new IndexOutOfRangeException();
             Exception ex4 = new KeyNotFoundException();
             Exception ex5 = new DriveNotFoundException();
@@ -61,31 +59,41 @@ namespace Unit_9._6
             foreach (string st in sName) Console.WriteLine(st);
             NumReader numReader = new NumReader();
             numReader.NumEnteredEvent += SortType;
-            try
+            while (true)
             {
-                numReader.KeyRead();
+                try
+                {
+                    numReader.KeyRead(sName);
+                }
+                catch (FormatException)
+                {
+                    Console.Write("Wrong key has been pressed");
+                }
             }
-            catch(MyException myEx)
-            {
-                Console.WriteLine(myEx.Message);
-            }
-
-
-
-
         }
-        static void SortType(int num)
+        static void SortType(int num, List<string> l)
         {
             switch (num)
             {
-                case 1: break;
-                case 2: break;
+                case 1:
+                    {
+                        l.Sort();
+                        Console.WriteLine("\n A-Z sorted list:");
+                        foreach (string st in l) Console.WriteLine(st);
+                    }
+                    break;
+                case 2:
+                    {
+                        l.Sort();
+                        l.Reverse();
+                        Console.WriteLine("\n Z-A sorted list:");
+                        foreach (string st in l) Console.WriteLine(st);
+                    } 
+                    break;
             }
         }
-        
         static void exIteration(Exception[] exArr, int i)
         {
-
             try
             {
                 throw exArr[i];
@@ -93,21 +101,13 @@ namespace Unit_9._6
             }
             catch
             {
-
                 Console.WriteLine(exArr[i].Message);
                 if (i < exArr.Length - 1)
                 {
                     i++;
                     exIteration(exArr, i);
-
-
                 }
-
-
-
             }
-            
         }
-        
     }
 }

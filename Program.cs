@@ -9,14 +9,14 @@ namespace Unit_9._6
     {
         public class MyException : Exception
         {
-            public MyException ()
+            public MyException()
             { }
-            public MyException(string message): base(message)
+            public MyException(string message) : base(message)
             {
 
             }
         }
-       public class NumReader
+        public class NumReader
         {
             public delegate void NumEnteredDelegate(int num, List<string> l);
             public event NumEnteredDelegate NumEnteredEvent;
@@ -27,7 +27,7 @@ namespace Unit_9._6
                 if (num != 1 && num != 2) throw new MyException("Wrong number has been pressed. Please try again.");
                 NumEntered(num, l);
             }
-            protected virtual void NumEntered(int num, List<string> l )
+            protected virtual void NumEntered(int num, List<string> l)
             {
                 NumEnteredEvent?.Invoke(num, l);
             }
@@ -88,7 +88,7 @@ namespace Unit_9._6
                         l.Reverse();
                         Console.WriteLine("\n Z-A sorted list:");
                         foreach (string st in l) Console.WriteLine(st);
-                    } 
+                    }
                     break;
             }
         }
